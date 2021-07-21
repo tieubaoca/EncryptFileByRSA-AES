@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RSAEncryptionFile"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800"
+        Icon="icon.ico"
+        Title="Encrypt File By TranBaoMTA" Height="600" Width="800"
         TextElement.FontSize="20">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -14,34 +15,71 @@
         </Grid.ColumnDefinitions>
         <StackPanel Margin="5">
             <TextBlock Text="Encrypt File" HorizontalAlignment="Center" FontSize="25"/>
-            <TextBlock Text="Public Key"/>
+            <TextBlock Text="Public Key Only"/>
             <TextBox x:Name="TxtPublicKey" Height="100" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding PublicKey}"/>
             <Button x:Name="BtnSave" Content="Save Public Key" Command="{Binding SaveCommand}">
                 <Button.CommandParameter>
                     <Binding ElementName="TxtPublicKey" Path="Text"/>
                 </Button.CommandParameter>
             </Button>
-            <TextBlock Text="Private Key"/>
+            <TextBlock Text="Full Key Pair"/>
             <TextBox x:Name="TxtPrivateKey" Height="100" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding PrivateKey}"/>
-            <Button x:Name="BtnSavePrivateKey" Content="Save Private Key" Command="{Binding SaveCommand}">
+            <Button x:Name="BtnSavePrivateKey" Content="Save Full Key Pair" Command="{Binding SaveCommand}">
                 <Button.CommandParameter>
                     <Binding ElementName="TxtPrivateKey" Path="Text"/>
                 </Button.CommandParameter>
             </Button>
-            <TextBlock Text="Encrypt Key"/>
-            <TextBox x:Name="TxtEncryptKey" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding EncryptKey}"></TextBox>
-            <Border Margin="0 10 0 10" BorderBrush="Black" BorderThickness="1">
+            <DockPanel LastChildFill="False">
+                <Button DockPanel.Dock="Left" Margin="0 10 0 20" x:Name="BtnGenerate" Content="Generate Keys" Command="{Binding GenerateCommand}">
+                    <Button.CommandParameter>
+                        <Binding ElementName="BtnGenerate"/>
+                    </Button.CommandParameter>
+                </Button>
+                
+                <Button DockPanel.Dock="Right" Margin="0 10 0 20" x:Name="BtnImportEnKey" Content="Import Encrypt Keys" Command="{Binding ImportEnKeyCommand}">
+                    <Button.CommandParameter>
+                        <Binding ElementName="BtnImportEnKey"/>
+                    </Button.CommandParameter>
+                </Button>
+                <TextBlock Margin="0,0,0,20" DockPanel.Dock="Bottom" Text="OR" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </DockPanel>
+
+            <Border BorderBrush="Black" BorderThickness="1">
                 <StackPanel>
-                    <TextBox x:Name="TxtOutput" Text="{Binding output}" TextWrapping="Wrap" FontSize="20"/>
-                    <Button x:Name="BtnChooseOutput" Content="Choose folder to save encrypt file" Command="{Binding ChooseOutput}"></Button>
+                    <TextBox x:Name="TxtInput" Text="{Binding InputFile}" FontSize="20"/>
+                    <Button Margin="0 10 0 0" x:Name="BtnImportFile" Content="Import File" Command="{Binding ImportFileCommand}">
+                    </Button>
                 </StackPanel>
             </Border>
-            <Button Margin="0 10 0 0" x:Name="BtnGenerate" Content="Generate Keys" Command="{Binding GenerateCommand}">
 
+            <Button Margin="0 10 0 0" x:Name="BtnEncryptFile" Content="Encrypt File" Command="{Binding EncryptCommand}">
+                <Button.CommandParameter>
+                    <Binding ElementName="BtnEncryptFile"/>
+                </Button.CommandParameter>
             </Button>
         </StackPanel>
         <StackPanel Grid.Column="1">
             <TextBlock Text="Decrypt File" FontSize="25" HorizontalAlignment="Center"/>
+            <TextBlock Text="Key To Decrypt File"/>
+            <Border BorderBrush="Black" BorderThickness="1">
+                <StackPanel>
+                    <TextBox x:Name="TxtDecKey" Text="{Binding DecryptKey}" FontSize="20"/>
+                    <Button Margin="0 10 0 0" x:Name="BtnImportDecKey" Content="Import Decrypt Key" Command="{Binding ImportDecryptKeyCommand}">
+                    </Button>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1">
+                <StackPanel>
+                    <TextBox x:Name="TxtEnInput" Text="{Binding InputEnFile}" TextWrapping="Wrap" FontSize="20"/>
+                    <Button Margin="0 10 0 0" x:Name="BtnImportEnFile" Content="Import Encrypted File" Command="{Binding ImportEnFileCommand}">
+                    </Button>
+                </StackPanel>
+            </Border>
+            <Button x:Name="BtnDecryptFile" Content="Decrypt File" Margin="0,20,0,0" Command="{Binding DecryptFileCommand}">
+                <Button.CommandParameter>
+                    <Binding ElementName="BtnDecryptFile"/>
+                </Button.CommandParameter>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>
